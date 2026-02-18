@@ -14,7 +14,7 @@ public class BattleCalculatorController : ControllerBase
     {
         return new RandomBattle
         {
-            BattleID = Guid.NewGuid().ToString(),
+            BattleId = Guid.NewGuid().ToString(),
             TeamA = TeamGenerator.GenerateRandomTeam("teamA"),
             TeamB = TeamGenerator.GenerateRandomTeam("teamB")
         };
@@ -23,8 +23,8 @@ public class BattleCalculatorController : ControllerBase
     [HttpPost("calculate-team")]
     public BattleResult CalculateBattle(RandomBattle request)
     {
-        return BattleCalculator.CalculateBattle(
-            request.BattleID,
+        return AutoBattleCalculator.CalculateBattle(
+            request.BattleId,
             request.TeamA,
             request.TeamB);
     }
@@ -34,8 +34,8 @@ public class BattleCalculatorController : ControllerBase
     {
         var request = Get();
 
-        return BattleCalculator.CalculateBattle(
-            request.BattleID,
+        return AutoBattleCalculator.CalculateBattle(
+            request.BattleId,
             request.TeamA,
             request.TeamB);
     }
@@ -48,7 +48,7 @@ public class BattleCalculatorController : ControllerBase
         var unitTypeA = request.UnitTypeTeamA;
         var unitTypeB = request.UnitTypeTeamB;
 
-        return BattleCalculator.CalculateBattle(
+        return AutoBattleCalculator.CalculateBattle(
             request.BattleID, 
             TeamGenerator.GenerateTeamOfSpecificType(unitTypeA.ToString(), unitTypeA), 
             TeamGenerator.GenerateTeamOfSpecificType(unitTypeB.ToString(), unitTypeB));
@@ -70,7 +70,7 @@ public class CalculateBattleWithSpecificUnitTypes
 public class RandomBattle
 {
     [JsonPropertyName("battle-id")]
-    public string BattleID { get; set; }
+    public string BattleId { get; set; }
 
     [JsonPropertyName("team-a")]
     public Team TeamA { get; set; }

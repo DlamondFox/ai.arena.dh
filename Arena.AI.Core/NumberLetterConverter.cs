@@ -1,4 +1,6 @@
-﻿namespace Arena.AI.Core;
+﻿using Arena.AI.Core.Models;
+
+namespace Arena.AI.Core;
 
 public static class NumberLetterConverter
 {
@@ -24,4 +26,19 @@ public static class NumberLetterConverter
 
         throw new ArgumentOutOfRangeException();
     }
+
+    public static bool TryParseDestination(string destination, out (int, int) dest)
+    {
+        if(destination.Length > 1 && UppercaseLetters.Contains(destination[0]) && int.TryParse(destination[1..], out int y))
+        {
+            dest = (GetNumber(destination[0]), y);
+            return true;
+        }
+
+        dest = (0, 0);
+        return false;
+    }
+
+    public static string GetDestination(int x, int y)
+        => $"{NumberLetterConverter.GetLetter(x)}{y}";
 }
