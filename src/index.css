@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+
+@keyframes sprite-bg {
+	from {
+		background-position: 0px 0px;
+	}
+	to {
+		background-position: calc(-1 * var(--sheetShift)) 0px;
+	}
+}
+
+.character-sprite {
+	position: absolute;
+	overflow: hidden;
+	image-rendering: pixelated;
+	background-repeat: no-repeat;
+}
