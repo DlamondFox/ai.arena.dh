@@ -1,15 +1,10 @@
 ﻿using Arena.AI.Core.Logic.BattleLogic;
 using Arena.AI.Core.Models;
-using System.Diagnostics;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Arena.AI.Core.Logic;
 
-public static class BattleCalculator
+public static class AutoBattleCalculator
 {
-    static int step;
-
     public static BattleResult CalculateBattle(string battleId, Team teamA, Team teamB)
     {
         var actions = new List<BattleAction>();

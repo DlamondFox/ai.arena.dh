@@ -7,6 +7,10 @@ public static class DistanceCalculator
     public const double DiagonalPenalty = 1.5;
     private static Random rnd = new ();
 
+
+    public static Unit[] CanAttackWithoutMoving(Unit attacker, Team enemyTeam)
+        => enemyTeam.Units.Where(u => CanAttackWithoutMoving(attacker, u)).ToArray();
+
     public static bool CanAttackWithoutMoving(Unit attacker, Unit target)
     {
         if (IsNear(attacker, target))
@@ -54,6 +58,12 @@ public static class DistanceCalculator
         }
     }
 
+    public static void Move(Unit unit, int x, int y)
+    {
+        unit.XPosition = x;
+        unit.YPosition = y;
+    }
+
     private static int Step(int attackerDim, int targetDim)
     {
         if(attackerDim > targetDim)
@@ -84,6 +94,9 @@ public static class DistanceCalculator
 
     public static double GetShortestDistanceValue(Unit unit1, Unit unit2)
         => GetShortestDistanceValue(new Coordinate(unit1.XPosition, unit1.YPosition), new Coordinate(unit2.XPosition, unit2.YPosition));
+
+    public static double GetShortestDistanceValue(Unit unit1, int x, int y)
+    => GetShortestDistanceValue(new Coordinate(unit1.XPosition, unit1.YPosition), new Coordinate(x, y));
 
     private static double GetShortestDistanceValue(Coordinate unit1, Coordinate unit2)
     {

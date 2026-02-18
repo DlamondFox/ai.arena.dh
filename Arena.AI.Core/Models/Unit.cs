@@ -12,7 +12,5 @@ public class Unit: UnitDefinition
 public static class UnitExtensions
 {
     public static string GetPositionOnArena(this Unit unit)
-    {
-        return $"{NumberLetterConverter.GetLetter(unit.XPosition)}{unit.YPosition}";
-    }
+        => $"{NumberLetterConverter.GetDestination(unit.XPosition, unit.YPosition)}";
 }
