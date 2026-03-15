@@ -1,5 +1,6 @@
 using Arena.AI.Core.Logic;
 using Arena.AI.Core.Models;
+using Arena.AI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
 
@@ -9,6 +10,13 @@ namespace Arena.AI.Controllers;
 [Route("[controller]")]
 public class BattleCalculatorController : ControllerBase
 {
+    private readonly BattleResultBuffer _buffer;
+
+    public BattleCalculatorController(BattleResultBuffer buffer)
+    {
+        _buffer = buffer;
+    }
+
     [HttpGet("random-team")]
     public RandomBattle Get()
     {
@@ -23,10 +31,13 @@ public class BattleCalculatorController : ControllerBase
     [HttpPost("calculate-team")]
     public BattleResult CalculateBattle(RandomBattle request)
     {
-        return AutoBattleCalculator.CalculateBattle(
+        var result = AutoBattleCalculator.CalculateBattle(
             request.BattleId,
             request.TeamA,
             request.TeamB);
+
+        _buffer.Enqueue(result);
+        return result;
     }
 
     [HttpPost("calculate-random-team")]
@@ -34,10 +45,13 @@ public class BattleCalculatorController : ControllerBase
     {
         var request = Get();
 
-        return AutoBattleCalculator.CalculateBattle(
+        var result = AutoBattleCalculator.CalculateBattle(
             request.BattleId,
             request.TeamA,
             request.TeamB);
+
+        _buffer.Enqueue(result);
+        return result;
     }
 
     [HttpPost("calculate-specific-units-team")]
@@ -48,10 +62,13 @@ public class BattleCalculatorController : ControllerBase
         var unitTypeA = request.UnitTypeTeamA;
         var unitTypeB = request.UnitTypeTeamB;
 
-        return AutoBattleCalculator.CalculateBattle(
-            request.BattleID, 
-            TeamGenerator.GenerateTeamOfSpecificType(unitTypeA.ToString(), unitTypeA), 
+        var result = AutoBattleCalculator.CalculateBattle(
+            request.BattleID,
+            TeamGenerator.GenerateTeamOfSpecificType(unitTypeA.ToString(), unitTypeA),
             TeamGenerator.GenerateTeamOfSpecificType(unitTypeB.ToString(), unitTypeB));
+
+        _buffer.Enqueue(result);
+        return result;
     }
 }
 
