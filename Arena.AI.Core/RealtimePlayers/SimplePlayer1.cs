@@ -9,7 +9,7 @@ public class SimplePlayer1 : IRealtimePlayer
         var enemies = battleState.TeamA.Name == battleState.NextUnitInfo.TeamName ? battleState.TeamB : battleState.TeamA;
         var actor = battleState.NextUnitInfo.Unit;
 
-        var closestUnit = enemies.Units.Where(u => !u.IsDead)
+        var closestUnit = enemies.AliveUnits
             .Select(u => new { Unit = u, Distance = DistanceCalculator.GetShortestDistanceValue(actor, u) })
             .OrderBy(x => x.Distance).Select(x => x.Unit).First();
 
@@ -26,7 +26,7 @@ public class SimplePlayer1 : IRealtimePlayer
 
         if(availableTargetNames.Count > 0)
         {
-            var unitToAttack = enemies.Units.Where(u => !u.IsDead).Where(u => availableTargetNames.Contains(u.Name))
+            var unitToAttack = enemies.AliveUnits.Where(u => availableTargetNames.Contains(u.Name))
                 .Select(u => new { Unit = u, Distance = DistanceCalculator.GetShortestDistanceValue(actor, u) })
                 .OrderBy(x => x.Distance).Select(x => x.Unit).First();
 

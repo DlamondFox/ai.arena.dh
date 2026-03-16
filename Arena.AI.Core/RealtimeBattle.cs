@@ -116,7 +116,7 @@ public class RealtimeBattle
         }
 
         var actor = _battleState.NextUnitInfo.Unit;
-        var unitToAttack = (_teamA.Units.Union(_teamB.Units)).First(u => u.Name == target);
+        var unitToAttack = (_teamA.AliveUnits.Union(_teamB.AliveUnits)).First(u => u.Name == target);
 
         _actions.Add(BattleActionFactory.Attack(actor, unitToAttack));
 
@@ -150,8 +150,8 @@ public class RealtimeBattle
     private void CalculateNextMovement()
     {
         var nextUnitName = _movementOrderManager.WhosNext();
-        var team = _teamA.Units.Where(u => !u.IsDead).Any(u => u.Name == nextUnitName) ? _teamA : _teamB;
-        var unit = team.Units.Where(u => !u.IsDead).First(u => u.Name == nextUnitName);
+        var team = _teamA.AliveUnits.Any(u => u.Name == nextUnitName) ? _teamA : _teamB;
+        var unit = team.AliveUnits.First(u => u.Name == nextUnitName);
 
         _battleState.NextUnitInfo = new NextUnitInfo
         {
@@ -164,8 +164,7 @@ public class RealtimeBattle
 
     private List<string> CalculateAvailableDestinations(Unit unit)
     {
-        var occupiedDestinations = (_teamA.Units.Union(_teamB.Units))
-            .Where(u => !u.IsDead)
+        var occupiedDestinations = (_teamA.AliveUnits.Union(_teamB.AliveUnits))
             .Select(u => (u.XPosition, u.YPosition))
             .ToArray();
 
@@ -194,7 +193,7 @@ public class RealtimeBattle
 
     private List<string> CalculateAvailableTargets(Unit unit)
     {
-        var enemyTeam = _teamA.Units.Where(u => !u.IsDead).Any(u => u.Name == unit.Name) ? _teamB : _teamA;
+        var enemyTeam = _teamA.AliveUnits.Any(u => u.Name == unit.Name) ? _teamB : _teamA;
         return DistanceCalculator.CanAttackWithoutMoving(unit, enemyTeam).Select(u => u.Name).ToList();
     }
 }

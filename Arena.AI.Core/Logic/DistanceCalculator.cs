@@ -9,7 +9,7 @@ public static class DistanceCalculator
 
 
     public static Unit[] CanAttackWithoutMoving(Unit attacker, Team enemyTeam)
-        => enemyTeam.Units.Where(u => !u.IsDead).Where(u => CanAttackWithoutMoving(attacker, u)).ToArray();
+        => enemyTeam.AliveUnits.Where(u => CanAttackWithoutMoving(attacker, u)).ToArray();
 
     public static bool CanAttackWithoutMoving(Unit attacker, Unit target)
     {
