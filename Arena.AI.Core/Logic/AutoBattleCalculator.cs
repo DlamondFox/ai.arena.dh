@@ -32,8 +32,8 @@ public static class AutoBattleCalculator
     {
         var battleActions = new List<BattleAction>();
         
-        var isActorFromA = teamA.Units.Any(u => u.Name == actorName);
-        var actor = (isActorFromA ? teamA : teamB).Units.First(u => u.Name == actorName);
+        var isActorFromA = teamA.AliveUnits.Any(u => u.Name == actorName);
+        var actor = (isActorFromA ? teamA : teamB).AliveUnits.First(u => u.Name == actorName);
 
         battleActions.AddRange(Act(actor, isActorFromA ? teamB : teamA));
         
@@ -44,7 +44,7 @@ public static class AutoBattleCalculator
     {
         var battleActions = new List<BattleAction>();
 
-        var unitToAttack = enemies.Units.Where(u => !u.IsDead)
+        var unitToAttack = enemies.AliveUnits
             .Select(u => new { Unit = u, Distance = DistanceCalculator.GetShortestDistanceValue(actor, u) })
             .OrderBy(x => x.Distance).Select(x => x.Unit).First();
 

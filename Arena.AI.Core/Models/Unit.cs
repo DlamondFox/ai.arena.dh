@@ -7,6 +7,18 @@ public class Unit: UnitDefinition
     public int XPosition { get; set; } = 0;
     public int YPosition { get; set; } = 0;
     public bool IsDead => Health <= 0;
+
+    public Unit DeepCopy()
+        => new Unit
+        {
+            Name = this.Name,
+            Health = this.Health,
+            XPosition = this.XPosition,
+            YPosition = this.YPosition,
+            Attack = this.Attack,
+            Range = this.Range,
+            Movement = this.Movement
+        };
 }
 
 public static class UnitExtensions

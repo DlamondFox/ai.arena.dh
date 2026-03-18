@@ -40,5 +40,14 @@ public static class NumberLetterConverter
     }
 
     public static string GetDestination(int x, int y)
-        => $"{NumberLetterConverter.GetLetter(x)}{y}";
+    {
+        try
+        {
+            return $"{NumberLetterConverter.GetLetter(x)}{y}";
+        }
+        catch(Exception)
+        {
+            throw;
+        }
+    }
 }

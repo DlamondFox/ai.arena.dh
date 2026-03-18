@@ -36,5 +36,6 @@ public class Team
 {
     public string Name { get; init; }
     public Unit[] Units { get; init; }
+    public Unit[] AliveUnits => Units.Where(u => !u.IsDead).ToArray();
     public bool IsAnyoneAlive => Units.Where(u => !u.IsDead).Any();
 }
