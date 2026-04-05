@@ -85,6 +85,20 @@ public class BattleCalculatorController : ControllerBase
 
         return rtbm.GetBattleResult();
     }
+
+    [HttpPost("create-pvp")]
+    public async Task<string> CreatePvp()
+    {
+        var inviteId = ActiveBattlesManager.CreateInvite();
+        return inviteId;
+    }
+
+    [HttpPost("create-pvb")]
+    public async Task<string> CreatePvb()
+    {
+        var inviteId = ActiveBattlesManager.CreateInviteWithBot(PlayerKind.SimpleBot1);
+        return inviteId;
+    }
 }
 
 public class CalculateBattleWithSpecificUnitTypes

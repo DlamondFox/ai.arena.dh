@@ -23,7 +23,7 @@ public static class AutoBattleCalculator
         return new BattleResult
         {
             BattleId = battleId,
-            Winner = teamA.IsAnyoneAlive ? teamA.Name : teamB.Name,
+            Winner = teamA.IsAnyoneAlive ? teamA.Name : teamB.IsAnyoneAlive ? teamB.Name : string.Empty,
             Actions = actions
         };
     }

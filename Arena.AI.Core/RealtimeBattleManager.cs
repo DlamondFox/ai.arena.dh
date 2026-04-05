@@ -26,7 +26,14 @@ public class RealtimeBattleManager
             
             _realtimeBattle.Play(action);
         }
+
+        await Task.WhenAll(
+            _playerA.ReportResultAsync(GetBattleResult()),
+            _playerB.ReportResultAsync(GetBattleResult())
+            );
     }
+
+    public string BattleId => _realtimeBattle.Id;
 
     public BattleResult GetBattleResult()
         => new ()
@@ -38,4 +45,12 @@ public class RealtimeBattleManager
 
     public List<BattleAction> GetCurrentBattleState()
         => _realtimeBattle.GetBattleActions();
+}
+
+internal class BattleInfo
+{
+    public RealtimeBattle Battle { get; init; }
+    public PlayerInfo PlayerA { get; set; }
+    public PlayerInfo PlayerB { get; set; }
+
 }
